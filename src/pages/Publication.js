@@ -1,20 +1,11 @@
-function Publication() {
+import React from 'react'
+import MainLayout from '../layouts/main'
+
+const Publication = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MainLayout>
+      <h1>Publication</h1>
+    </MainLayout>
   )
 }
 
