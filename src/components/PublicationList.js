@@ -50,13 +50,13 @@ const AuthorList = props => {
               <StyledListItemText>
                 <StyledTitle>{publication.title}</StyledTitle>
                 <Box display ='flex'>
-                  <Box flex={1}>
+                  <Box flexGrow={1}>
                   <StyledSubtitle>
                     {`Posted by ${publication.author.firstName} ${publication.author.lastName}`}
                     <StyledEmail>{publication.author.email}</StyledEmail>
                   </StyledSubtitle>
                   </Box>
-                  <Box flexGrow>
+                  <Box>
                     <StyledSubtitle>{`${new Date(publication.createdAt).toLocaleDateString()}
                       ${new Date(publication.createdAt).toLocaleTimeString()}`}</StyledSubtitle>
                   </Box>

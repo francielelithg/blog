@@ -77,16 +77,16 @@ const App = () => {
     <MainLayout>
       <Container maxWidth='md'>
         <Box mb={2} display='flex'>
-          <Box flex={1}>
+          <Box flexGrow={1}>
             <StyledTypography>All publications</StyledTypography>
           </Box>
-          <Box flexGrow>
+          <Box>
             <Button
               color="primary"
               startIcon={desc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon /> }
               onClick={handleRevertOrder}>
                 {desc ? 'Latest' : 'Oldest'}
-              </Button>
+            </Button>
           </Box>
         </Box>
         <PublicationList />
