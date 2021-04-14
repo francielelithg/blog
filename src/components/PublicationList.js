@@ -7,6 +7,7 @@ import {
   Typography
 } from '@material-ui/core'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 const StyledListItem = styled(ListItem)`
@@ -44,23 +45,25 @@ const AuthorList = props => {
     <div>
       <List component='nav' dense>
         {publications && publications.map((publication, index) => (
-          <StyledListItem key={index}>
-            <StyledListItemText>
-              <StyledTitle>{publication.title}</StyledTitle>
-              <Box display ='flex'>
-                <Box flex={1}>
-                <StyledSubtitle>
-                  {`Posted by ${publication.author.firstName} ${publication.author.lastName}`}
-                  <StyledEmail>{publication.author.email}</StyledEmail>
-                </StyledSubtitle>
+          <Link to={`/publication/${publication.id}`} key={index}>
+            <StyledListItem>
+              <StyledListItemText>
+                <StyledTitle>{publication.title}</StyledTitle>
+                <Box display ='flex'>
+                  <Box flex={1}>
+                  <StyledSubtitle>
+                    {`Posted by ${publication.author.firstName} ${publication.author.lastName}`}
+                    <StyledEmail>{publication.author.email}</StyledEmail>
+                  </StyledSubtitle>
+                  </Box>
+                  <Box flexGrow>
+                    <StyledSubtitle>{`${new Date(publication.createdAt).toLocaleDateString()}
+                      ${new Date(publication.createdAt).toLocaleTimeString()}`}</StyledSubtitle>
+                  </Box>
                 </Box>
-                <Box flexGrow>
-                  <StyledSubtitle>{`${new Date(publication.createdAt).toLocaleDateString()}
-                    ${new Date(publication.createdAt).toLocaleTimeString()}`}</StyledSubtitle>
-                </Box>
-              </Box>
-            </StyledListItemText>
-          </StyledListItem>
+              </StyledListItemText>
+            </StyledListItem>
+          </Link>
         ))}
       </List>
     </div>

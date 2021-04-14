@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 
 const initialState = {
   publications: [],
+  authors: [],
   selectedAuthor: null
 }
 
@@ -11,6 +12,7 @@ const reducer = (state = initialState, action) => {
     case 'TICK':
       return { 
         ...state,
+        authors: action.authors,
         selectedAuthor: action.selectedAuthor,
         publications: action.publications
       }

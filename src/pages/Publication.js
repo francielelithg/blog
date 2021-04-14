@@ -4,7 +4,6 @@ import MainLayout from '../layouts/main'
 const Publication = () => {
   return (
     <MainLayout>
-      <h1>Publication</h1>
     </MainLayout>
   )
 }

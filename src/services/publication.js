@@ -14,5 +14,18 @@ export default {
           reject()
         })
     })
+  },
+
+  getByAuthor(id) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${url}?authorId=${id}`)
+        .then(result => {
+          resolve(result.data)
+        })
+        .catch(error => {
+          console.log(error)
+          reject()
+        })
+    })
   }
 }

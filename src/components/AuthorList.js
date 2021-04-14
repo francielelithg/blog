@@ -12,6 +12,8 @@ import PersonIcon from '@material-ui/icons/Person'
 import styled from 'styled-components'
 import authorService from '../services/author'
 import { useStore, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const StyledTypography = styled(Typography)`
   font-size: 24px;
@@ -35,27 +37,43 @@ const StyledListItemText = styled(ListItemText)`
   font-weight: bold;
 `
 
-const AuthorList = () => {
+const AuthorList = props => {
   const [authors, setAuthors] = useState(null)
+  const [selected, setSelected] = useState(null)
   const store = useStore()
   const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await authorService.getAll()
-      if (data) setAuthors(data)
+      if (props.authors.length === 0) {
+        const data = await authorService.getAll()
+        if (data) {
+          const state = store.getState()
+          dispatch({
+            type: 'TICK',
+            ...state,
+            authors: data
+          })
+          setAuthors(data)
+        }
+      } else {
+        setAuthors(props.authors)
+      }
     }
 
     fetchData()
   }, [])
 
-  const handleSelectAuthor = (event, author) => {
+  const handleSelectAuthor = (event, author, index) => {
     const state = store.getState()
+
+    setSelected(index)
 
     dispatch({
       type: 'TICK',
       ...state,
-      selectedAuthor: author
+      selectedAuthor: author,
+      publications: []
     })
   }
 
@@ -66,18 +84,23 @@ const AuthorList = () => {
       </Box>
       <List component='nav' dense>
         {authors && authors.map((author, index) => (
-          <StyledListItem key={index} onClick={(event) => handleSelectAuthor(event, author)}>
-            <ListItemAvatar>
-              <StyledAvatar>
-                <PersonIcon />
-              </StyledAvatar>
-            </ListItemAvatar>
-            <StyledListItemText primary={`${author.firstName} ${author.lastName}`} />
-          </StyledListItem>
+          <Link to={`/author/${author.id}`} key={index}>
+            <StyledListItem
+              onClick={(event) => handleSelectAuthor(event, author, index)}
+              selected={selected === index}
+            >
+              <ListItemAvatar>
+                <StyledAvatar>
+                  <PersonIcon />
+                </StyledAvatar>
+              </ListItemAvatar>
+              <StyledListItemText primary={`${author.firstName} ${author.lastName}`} />
+            </StyledListItem>
+          </Link>
         ))}
       </List>
     </div>
   )
 }
 
-export default AuthorList
+export default connect((state) => state)(AuthorList)
