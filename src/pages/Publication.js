@@ -2,17 +2,15 @@ import React, { useEffect, useState } from 'react'
 import {
   Box,
   Container,
-  Button,
   List,
   ListItem,
   ListItemText,
   Typography
 } from '@material-ui/core'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import styled from 'styled-components'
 import MainLayout from '../layouts/main'
+import BackButton from '../components/BackButton'
 import publicationService from '../services/publication'
-import { useHistory } from 'react-router-dom'
 
 const StyledListItem = styled(ListItem)`
   padding-left: 0px;
@@ -40,7 +38,6 @@ const StyledEmail = styled.span`
 
 const Publication = props => {
   const [publication, setPublication] = useState(null)
-  const history = useHistory()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,20 +49,10 @@ const Publication = props => {
     fetchData()
   }, [props.match.params])
 
-  const handleBack = event => {
-    event.preventDefault()
-    history.goBack()
-  }
-
   return (
     <MainLayout>
       <Container maxWidth='md'>
-        <Button
-          color='primary'
-          startIcon={<ArrowBackIcon />}
-          onClick={handleBack}>
-          Back
-        </Button>
+        <BackButton />
         {publication && <>
           <List>
             <StyledListItem>
