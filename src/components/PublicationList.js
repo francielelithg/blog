@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import {
   Box,
-  Button,
-  Container,
   List,
   ListItem,
   ListItemText,
   Typography
 } from '@material-ui/core'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import styled from 'styled-components'
-import publicationService from '../services/publication'
-import { useStore, useDispatch } from 'react-redux'
-
-const StyledTypography = styled(Typography)`
-  font-size: 24px;
-  color: #cccccc;
-`
+import { connect } from 'react-redux'
 
 const StyledListItem = styled(ListItem)`
   padding-left: 0px;
@@ -42,54 +33,38 @@ const StyledEmail = styled.span`
   margin-left: 8px;
 `
 
-const AuthorList = () => {
+const AuthorList = props => {
   const [publications, setPublications] = useState(null)
-  const store = useStore()
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await publicationService.getAll()
-      if (data) setPublications(data)
-    }
-
-    fetchData()
-  }, [])
+    setPublications(props.publications)
+  }, [props])
 
   return (
     <div>
-      <Container maxWidth='md'>
-        <Box mb={2} display='flex'>
-          <Box flex={1}>
-            <StyledTypography>All publications</StyledTypography>
-          </Box>
-          <Box flexGrow>
-            <Button color="primary" startIcon={<KeyboardArrowUpIcon />}>Latest</Button>
-          </Box>
-        </Box>
-        <List component='nav' dense>
-          {publications && publications.map((publication, index) => (
-            <StyledListItem key={index}>
-              <StyledListItemText>
-                <StyledTitle>{publication.title}</StyledTitle>
-                <Box display ='flex'>
-                  <Box flex={1}>
-                  <StyledSubtitle>
-                    {`Posted by ${publication.author.firstName} ${publication.author.lastName}`}
-                    <StyledEmail>{publication.author.email}</StyledEmail>
-                  </StyledSubtitle>
-                  </Box>
-                  <Box flexGrow>
-                    <StyledSubtitle>{`${new Date(publication.createdAt).toLocaleDateString()}
-                      ${new Date(publication.createdAt).toLocaleTimeString()}`}</StyledSubtitle>
-                  </Box>
+      <List component='nav' dense>
+        {publications && publications.map((publication, index) => (
+          <StyledListItem key={index}>
+            <StyledListItemText>
+              <StyledTitle>{publication.title}</StyledTitle>
+              <Box display ='flex'>
+                <Box flex={1}>
+                <StyledSubtitle>
+                  {`Posted by ${publication.author.firstName} ${publication.author.lastName}`}
+                  <StyledEmail>{publication.author.email}</StyledEmail>
+                </StyledSubtitle>
                 </Box>
-              </StyledListItemText>
-            </StyledListItem>
-          ))}
-        </List>
-      </Container>
+                <Box flexGrow>
+                  <StyledSubtitle>{`${new Date(publication.createdAt).toLocaleDateString()}
+                    ${new Date(publication.createdAt).toLocaleTimeString()}`}</StyledSubtitle>
+                </Box>
+              </Box>
+            </StyledListItemText>
+          </StyledListItem>
+        ))}
+      </List>
     </div>
   )
 }
 
-export default AuthorList
+export default connect((state) => state)(AuthorList)

@@ -49,13 +49,13 @@ const AuthorList = () => {
     fetchData()
   }, [])
 
-  const handleSelectAuthor = (event, authorId) => {
+  const handleSelectAuthor = (event, author) => {
     const state = store.getState()
 
     dispatch({
       type: 'TICK',
       ...state,
-      selectedAuthor: authorId
+      selectedAuthor: author
     })
   }
 
@@ -66,7 +66,7 @@ const AuthorList = () => {
       </Box>
       <List component='nav' dense>
         {authors && authors.map((author, index) => (
-          <StyledListItem key={index} onClick={(event) => handleSelectAuthor(event, author.id)}>
+          <StyledListItem key={index} onClick={(event) => handleSelectAuthor(event, author)}>
             <ListItemAvatar>
               <StyledAvatar>
                 <PersonIcon />
