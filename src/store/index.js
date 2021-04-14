@@ -1,14 +1,17 @@
 import { applyMiddleware, createStore } from 'redux'
+import thunk from 'redux-thunk'
 
 const initialState = {
-  publications: []
+  publications: [],
+  selectedAuthor: null
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'TICK':
       return { 
-        ...state, 
+        ...state,
+        selectedAuthor: action.selectedAuthor,
         publications: action.publications
       }
     default:
@@ -16,4 +19,6 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-export const Store = createStore(reducer, applyMiddleware(thunk))
+const Store = createStore(reducer, applyMiddleware(thunk))
+
+export default Store

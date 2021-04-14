@@ -11,6 +11,7 @@ import {
 import PersonIcon from '@material-ui/icons/Person'
 import styled from 'styled-components'
 import authorService from '../services/author'
+import { useStore, useDispatch } from 'react-redux'
 
 const StyledTypography = styled(Typography)`
   font-size: 24px;
@@ -36,6 +37,8 @@ const StyledListItemText = styled(ListItemText)`
 
 const AuthorList = () => {
   const [authors, setAuthors] = useState(null)
+  const store = useStore()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,8 +49,14 @@ const AuthorList = () => {
     fetchData()
   }, [])
 
-  const handleSelectAuthor = (event, index) => {
-    console.log(index)
+  const handleSelectAuthor = (event, authorId) => {
+    const state = store.getState()
+
+    dispatch({
+      type: 'TICK',
+      ...state,
+      selectedAuthor: authorId
+    })
   }
 
   return (

@@ -27,7 +27,7 @@ const StyledTypography = styled(Typography)`
 
 const StyledMain = styled.main`
   margin-left: 370px;
-  padding: 40px;
+  padding: 50px;
 `
 
 const Main = props => {

@@ -31,7 +31,7 @@ const Search = () => {
     <div>
       <StyledPaper component='form'>
         <StyledInput
-          placeholder='Type to filter...'
+          placeholder='Type to filter publications...'
         />
         <StyledIconButton type='submit'>
           <SearchIcon style={{ color: '#eeeeee' }} />

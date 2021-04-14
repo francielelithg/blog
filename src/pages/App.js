@@ -1,10 +1,11 @@
 import React from 'react'
 import MainLayout from '../layouts/main'
+import PublicationList from '../components/PublicationList'
 
 const App = () => {
   return (
     <MainLayout>
-      <h1>Index</h1>
+      <PublicationList />
     </MainLayout>
   )
 }
