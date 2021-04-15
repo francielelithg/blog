@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {
   Avatar,
   Box,
+  CircularProgress,
   List,
   ListItem,
   ListItemAvatar,
@@ -38,10 +39,11 @@ const StyledListItemText = styled(ListItemText)`
 `
 
 const AuthorList = props => {
-  const [authors, setAuthors] = useState(null)
-  const [selected, setSelected] = useState(null)
   const store = useStore()
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(true)
+  const [authors, setAuthors] = useState(null)
+  const [selected, setSelected] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,10 +56,12 @@ const AuthorList = props => {
             ...state,
             authors: data
           })
+          setLoading(false)
           setAuthors(data)
         }
       } else {
         setAuthors(props.authors)
+        setLoading(false)
       }
     }
 
@@ -73,7 +77,7 @@ const AuthorList = props => {
       type: 'TICK',
       ...state,
       selectedAuthor: author,
-      publications: []
+      publications: null
     })
   }
 
@@ -82,7 +86,7 @@ const AuthorList = props => {
       <Box mb={2}>
         <StyledTypography>Authors</StyledTypography>
       </Box>
-      <List component='nav' dense>
+      {!loading && <List component='nav' dense>
         {authors && authors.map((author, index) => (
           <Link to={`/author/${author.id}`} key={index}>
             <StyledListItem
@@ -98,7 +102,10 @@ const AuthorList = props => {
             </StyledListItem>
           </Link>
         ))}
-      </List>
+      </List>}
+      {loading && <Box mt={4} display='flex' justifyContent='center'>
+        <CircularProgress />
+      </Box>}
     </div>
   )
 }

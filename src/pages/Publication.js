@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   Box,
+  CircularProgress,
   Container,
   List,
   ListItem,
@@ -11,6 +12,7 @@ import styled from 'styled-components'
 import MainLayout from '../layouts/main'
 import BackButton from '../components/BackButton'
 import publicationService from '../services/publication'
+import { useHistory } from 'react-router-dom'
 
 const StyledListItem = styled(ListItem)`
   padding-left: 0px;
@@ -37,12 +39,20 @@ const StyledEmail = styled.span`
 `
 
 const Publication = props => {
+  const history = useHistory()
+  const [loading, setLoading] = useState(true)
   const [publication, setPublication] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await publicationService.getById(props.match.params.id)
-      setPublication(data)
+      if (data) {
+        setPublication(data)
+        setLoading(false)
+      } else {
+        history.replace('/404')
+        setLoading(false)
+      }
     }
 
     fetchData()
@@ -52,7 +62,7 @@ const Publication = props => {
     <MainLayout>
       <Container maxWidth='md'>
         <BackButton />
-        {publication && <>
+        {!loading && publication && <>
           <List>
             <StyledListItem>
               <StyledListItemText>
@@ -76,6 +86,9 @@ const Publication = props => {
             <Typography variant='body1' align='justify'>{publication.body}</Typography>
           </Box>
         </>}
+        {loading && <Box mt={4} display='flex' justifyContent='center'>
+          <CircularProgress />
+        </Box>}
       </Container>
     </MainLayout>
   )

@@ -2,7 +2,7 @@ import { applyMiddleware, createStore } from 'redux'
 import thunk from 'redux-thunk'
 
 const initialState = {
-  publications: [],
+  publications: null,
   authors: [],
   selectedAuthor: null
 }

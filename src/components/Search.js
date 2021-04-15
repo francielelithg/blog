@@ -39,10 +39,6 @@ const Search = () => {
     setInput(event.target.value)
   }
 
-  const onKeyDown = event => {
-    if (event.keyCode === 13) event.stopPropagation()
-  }
-
   const handleSubmit = event => {
     event.preventDefault()
     const state = store.getState()
@@ -65,7 +61,6 @@ const Search = () => {
           placeholder='Type to filter publications...'
           value={input}
           onChange={handleChange}
-          onKeyDown={onKeyDown}
         />
         <StyledIconButton disabled={input.length === 0} type='submit' onClick={handleSubmit}>
           <SearchIcon style={{ color: '#eeeeee' }} />

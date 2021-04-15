@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
   Box,
+  CircularProgress,
   List,
   ListItem,
   ListItemText,
@@ -35,15 +36,24 @@ const StyledEmail = styled.span`
 `
 
 const AuthorList = props => {
+  const [loading, setLoading] = useState(true)
   const [publications, setPublications] = useState(null)
 
   useEffect(() => {
-    setPublications(props.publications)
+    if (props.publications && props.publications.length > 0) {
+      setPublications(props.publications)
+      setLoading(false)
+    } else if (!props.publications) {
+      setPublications(null)
+      setLoading(true)
+    } else {
+      setLoading(false)
+    }
   }, [props])
 
   return (
     <div>
-      <List component='nav' dense>
+      {!loading && <List component='nav' dense>
         {publications && publications.map((publication, index) => (
           <Link to={`/publication/${publication.id}`} key={index}>
             <StyledListItem>
@@ -65,7 +75,10 @@ const AuthorList = props => {
             </StyledListItem>
           </Link>
         ))}
-      </List>
+      </List>}
+      {loading && <Box mt={4} display='flex' justifyContent='center'>
+        <CircularProgress />
+      </Box>}
     </div>
   )
 }

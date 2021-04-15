@@ -24,9 +24,11 @@ const App = () => {
   const [desc, setDesc] = useState(true)
 
   useEffect(() => {
-    const fetchData = async () => {
+    const state = store.getState()
+    cleanPublications(state)
+
+    const fetchData = async (state) => {
       const data = await publicationService.getAll()
-      const state = store.getState()
 
       dispatch({
         type: 'TICK',
@@ -35,7 +37,7 @@ const App = () => {
       })
     }
 
-    fetchData()
+    fetchData(state)
   }, [])
 
   const handleRevertOrder = event => {

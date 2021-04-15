@@ -16,6 +16,12 @@ const StyledTypography = styled(Typography)`
   color: #cccccc;
 `
 
+const StyledBox = styled(Box)`
+  position: fixed;
+  display: block;
+  bottom: 0;
+`
+
 const Author = props => {
   const store = useStore()
   const [page, setPage] = useState(1)
@@ -59,12 +65,14 @@ const Author = props => {
     <MainLayout>
       <Container maxWidth='md'>
         <Box mb={2} display='flex'>
-          <StyledTypography>{`Searching publications with title '${props.match.params.string}'`} </StyledTypography>
+          <StyledTypography>{`Showing results for "${props.match.params.string}"`} </StyledTypography>
         </Box>
         <PublicationList />
-        <Box display='flex' justifyContent='center' mt={4}>
-          {total && <Pagination count={total} page={page} shape='rounded' size='large' onChange={handlePageChange} />}
-        </Box>
+        <StyledBox mb={8}>
+          <Box display='flex' justifyContent='center'>
+            {total && total > 0 && <Pagination count={total} page={page} size='large' onChange={handlePageChange} />}
+          </Box>
+        </StyledBox>
       </Container>
     </MainLayout>
   )

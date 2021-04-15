@@ -25,10 +25,8 @@ const NotFound = () => {
       <Box mt={2} px={8}>
         <StyledSubtitle align='center'>It seems you're trying to access some content that is not currently available on Blog.</StyledSubtitle>
       </Box>
-      <Box display='flex' mt={4}>
-        <Box justifyContent='center'>
-          <BackButton />
-        </Box>
+      <Box display='flex' justifyContent='center' mt={4}>
+        <BackButton />
       </Box>
     </Container>
   )
