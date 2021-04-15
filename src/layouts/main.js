@@ -11,17 +11,19 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const StyledPaper = styled(Paper)`
-  width: 300px;
+  width: 370px;
   background-color: #222222;
   border-radius: 0px;
   box-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
-  padding: 50px 35px;
+  padding: 50px 0px;
   border: 0px;
 `
 
 const StyledTypography = styled(Typography)`
+  border-left: 5px solid #de4837;
+  padding-left: 25px;
   font-size: 42px;
   color: #dddddd;
 `
@@ -42,8 +44,10 @@ const Main = props => {
         open={open}
         PaperProps={{ component: StyledPaper }}
       >
-        <Link to='/'><StyledTypography>Blog</StyledTypography></Link>
-        <Box my={2}>
+        <Box px={4}>
+          <Link to='/'><StyledTypography>Blog</StyledTypography></Link>
+        </Box>
+        <Box my={4} px={4}>
           <Search />
         </Box>
         <Box my={2}>

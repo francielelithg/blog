@@ -25,11 +25,13 @@ const StyledBox = styled(Box)`
 const Author = props => {
   const store = useStore()
   const [page, setPage] = useState(1)
-  const [total, setTotal] = useState(null)
+  const [total, setTotal] = useState(0)
   const [limit] = useState(5)
   const dispatch = useDispatch()
 
   useEffect(() => {
+    setTotal(0)
+
     const fetchData = async () => {
       const offset = (page - 1) * limit
       const data = await publicationService.getBySearch(props.match.params.string, limit, offset)
@@ -69,9 +71,7 @@ const Author = props => {
         </Box>
         <PublicationList />
         <StyledBox mb={8}>
-          <Box display='flex' justifyContent='center'>
-            {total && total > 0 && <Pagination count={total} page={page} size='large' onChange={handlePageChange} />}
-          </Box>
+          {total > 0 && <Pagination count={total} page={page} size='large' onChange={handlePageChange} />}
         </StyledBox>
       </Container>
     </MainLayout>

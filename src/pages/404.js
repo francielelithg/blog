@@ -20,7 +20,7 @@ const NotFound = () => {
   return (
     <Container maxWidth='sm'>
       <Box mt={8}>
-        <StyledTypography align='center'>404 not found</StyledTypography>
+        <StyledTypography align='center'>404</StyledTypography>
       </Box>
       <Box mt={2} px={8}>
         <StyledSubtitle align='center'>It seems you're trying to access some content that is not currently available on Blog.</StyledSubtitle>

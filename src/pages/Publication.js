@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react'
 import {
   Box,
   CircularProgress,
+  Chip,
   Container,
   List,
   ListItem,
   ListItemText,
   Typography
 } from '@material-ui/core'
-import styled from 'styled-components'
+import ScheduleIcon from '@material-ui/icons/Schedule'
 import MainLayout from '../layouts/main'
 import BackButton from '../components/BackButton'
+import styled from 'styled-components'
 import publicationService from '../services/publication'
 import { useHistory } from 'react-router-dom'
 
@@ -32,10 +34,18 @@ const StyledSubtitle = styled(Typography)`
   font-size: 14px;
 `
 const StyledEmail = styled.span`
-  font-size: 14px;
-  font-style: italic;
-  color: #cccccc;
+  font-size: 12px;
+  color: #de4837;
   margin-left: 8px;
+`
+
+const StyledChip = styled(Chip)`
+  background: transparent;
+  color: #bbbbbb;
+`
+
+const StyledScheduleIcon = styled(ScheduleIcon)`
+  color: #bbbbbb;
 `
 
 const Publication = props => {
@@ -70,20 +80,24 @@ const Publication = props => {
                 <Box display='flex'>
                   <Box flexGrow={1}>
                     <StyledSubtitle>
-                      {`Posted by ${publication.author.firstName} ${publication.author.lastName}`}
-                      <StyledEmail>{publication.author.email}</StyledEmail>
+                      {`${publication.author.firstName} ${publication.author.lastName}`}
+                      <StyledEmail>{`<${publication.author.email}>`}</StyledEmail>
                     </StyledSubtitle>
                   </Box>
                   <Box>
-                    <StyledSubtitle>{`${new Date(publication.createdAt).toLocaleDateString()}
-                      ${new Date(publication.createdAt).toLocaleTimeString()}`}</StyledSubtitle>
+                    <StyledChip
+                      size="small"
+                      icon={<StyledScheduleIcon />}
+                      label={`${new Date(publication.createdAt).toLocaleDateString()}
+                      ${new Date(publication.createdAt).toLocaleTimeString()}`}
+                    />
                   </Box>
                 </Box>
               </StyledListItemText>
             </StyledListItem>
           </List>
           <Box mt={2}>
-            <Typography variant='body1' align='justify'>{publication.body}</Typography>
+            <Typography color='secondary' variant='body1' align='justify'>{publication.body}</Typography>
           </Box>
         </>}
         {loading && <Box mt={4} display='flex' justifyContent='center'>

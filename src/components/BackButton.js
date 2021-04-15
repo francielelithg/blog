@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Button
 } from '@material-ui/core'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { useHistory } from 'react-router-dom'
 
 const BackButton = () => {
@@ -16,7 +16,8 @@ const BackButton = () => {
   return (
     <Button
       color='primary'
-      startIcon={<ArrowBackIcon />}
+      size='large'
+      startIcon={<ChevronLeftIcon />}
       onClick={handleBack}>
       Back
     </Button>

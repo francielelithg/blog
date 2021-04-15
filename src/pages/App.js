@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import {
   Box,
-  Button,
   Container,
   Typography
 } from '@material-ui/core'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import MainLayout from '../layouts/main'
 import PublicationList from '../components/PublicationList'
+import RevertButton from '../components/RevertButton'
 import styled from 'styled-components'
 import publicationService from '../services/publication'
 import { useStore, useDispatch } from 'react-redux'
@@ -21,7 +19,6 @@ const StyledTypography = styled(Typography)`
 const App = () => {
   const store = useStore()
   const dispatch = useDispatch()
-  const [desc, setDesc] = useState(true)
 
   useEffect(() => {
     const state = store.getState()
@@ -40,33 +37,6 @@ const App = () => {
     fetchData(state)
   }, [])
 
-  const handleRevertOrder = event => {
-    event.preventDefault()
-
-    const state = store.getState()
-    cleanPublications(state)
-
-    let revert
-
-    if (desc) {
-      revert = state.publications.sort((a, b) => { 
-        return new Date(a.createdAt) - new Date(b.createdAt)
-      })
-    } else {
-      revert = state.publications.sort((a, b) => { 
-        return new Date(b.createdAt) - new Date(a.createdAt)
-      })
-    }
-
-    setDesc(!desc)
-
-    dispatch({
-      type: 'TICK',
-      ...state,
-      publications: revert
-    })
-  }
-
   const cleanPublications = (state) => {
     dispatch({
       type: 'TICK',
@@ -83,12 +53,7 @@ const App = () => {
             <StyledTypography>All publications</StyledTypography>
           </Box>
           <Box>
-            <Button
-              color="primary"
-              startIcon={desc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon /> }
-              onClick={handleRevertOrder}>
-                {desc ? 'Latest' : 'Oldest'}
-            </Button>
+            <RevertButton />
           </Box>
         </Box>
         <PublicationList />

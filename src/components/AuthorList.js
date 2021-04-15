@@ -22,8 +22,11 @@ const StyledTypography = styled(Typography)`
 `
 
 const StyledListItem = styled(ListItem)`
-  padding-left: 0px;
-  padding-right: 0px;
+  padding: 8px 32px;
+  transition: 0.5s;
+  &:hover {
+    background-color: #de4837;
+  }
 `
 
 const StyledAvatar = styled(Avatar)`
@@ -83,7 +86,7 @@ const AuthorList = props => {
 
   return (
     <div>
-      <Box mb={2}>
+      <Box mb={2} px={4}>
         <StyledTypography>Authors</StyledTypography>
       </Box>
       {!loading && <List component='nav' dense>
