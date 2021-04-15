@@ -6,4 +6,4 @@ This application is the frontend part from the Blog application. It was develope
     
 The server is going to be running on **http://localhost:3006/**. 
 
-The production application was deployed to AWS and it is available on link: https://master.d1hixew5l1bhow.amplifyapp.com/
+The production application was deployed to AWS and it is available on link: https://master.d2vwya38phn5mn.amplifyapp.com/
