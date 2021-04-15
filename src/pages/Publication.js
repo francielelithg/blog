@@ -43,7 +43,6 @@ const Publication = props => {
     const fetchData = async () => {
       const data = await publicationService.getById(props.match.params.id)
       setPublication(data)
-      console.log(data)
     }
 
     fetchData()

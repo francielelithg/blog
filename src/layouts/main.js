@@ -8,6 +8,7 @@ import {
 import Search from '../components/Search'
 import AuthorList from '../components/AuthorList'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const StyledPaper = styled(Paper)`
   width: 300px;
@@ -41,7 +42,7 @@ const Main = props => {
         open={open}
         PaperProps={{ component: StyledPaper }}
       >
-        <StyledTypography>Blog</StyledTypography>
+        <Link to='/'><StyledTypography>Blog</StyledTypography></Link>
         <Box my={2}>
           <Search />
         </Box>

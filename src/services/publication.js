@@ -40,5 +40,18 @@ export default {
           reject()
         })
     })
+  },
+
+  getBySearch(search, limit, offset) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${url}?title=%${search}%&limit=${limit}&offset=${offset}`)
+        .then(result => {
+          resolve(result.data)
+        })
+        .catch(error => {
+          console.log(error)
+          reject()
+        })
+    })
   }
 }

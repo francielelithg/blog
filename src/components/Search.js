@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   InputBase,
   IconButton,
@@ -6,6 +6,8 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
+import { useStore, useDispatch } from 'react-redux'
 
 const StyledPaper = styled(Paper)`
   padding: 2px 4px;
@@ -27,13 +29,45 @@ const StyledIconButton = styled(IconButton)`
 `
 
 const Search = () => {
+  const store = useStore()
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const [input, setInput] = useState('')
+
+  const handleChange = event => {
+    event.preventDefault()
+    setInput(event.target.value)
+  }
+
+  const onKeyDown = event => {
+    if (event.keyCode === 13) event.stopPropagation()
+  }
+
+  const handleSubmit = event => {
+    event.preventDefault()
+    const state = store.getState()
+    cleanPublications(state)
+    history.push(`/search/${input}`)
+  }
+
+  const cleanPublications = (state) => {
+    dispatch({
+      type: 'TICK',
+      ...state,
+      publications: null
+    })
+  }  
+
   return (
     <div>
       <StyledPaper component='form'>
         <StyledInput
           placeholder='Type to filter publications...'
+          value={input}
+          onChange={handleChange}
+          onKeyDown={onKeyDown}
         />
-        <StyledIconButton type='submit'>
+        <StyledIconButton disabled={input.length === 0} type='submit' onClick={handleSubmit}>
           <SearchIcon style={{ color: '#eeeeee' }} />
         </StyledIconButton>
       </StyledPaper>

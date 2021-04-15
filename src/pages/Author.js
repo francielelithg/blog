@@ -31,7 +31,7 @@ const Author = props => {
       dispatch({
         type: 'TICK',
         ...state,
-        publications: data
+        publications: data.rows
       })
     }
 
@@ -77,16 +77,16 @@ const Author = props => {
     <MainLayout>
       <Container maxWidth='md'>
         <Box mb={2} display='flex'>
-          <Box flex={1}>
+          <Box flexGrow={1}>
             <StyledTypography>All publications by author</StyledTypography>
           </Box>
-          <Box flexGrow>
+          <Box>
             <Button
               color="primary"
               startIcon={desc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon /> }
               onClick={handleRevertOrder}>
                 {desc ? 'Latest' : 'Oldest'}
-              </Button>
+            </Button>
           </Box>
         </Box>
         <PublicationList />

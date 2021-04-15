@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import {
   Box,
-  Button,
   Container,
   Typography
 } from '@material-ui/core'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
+import { Pagination } from '@material-ui/lab'
 import MainLayout from '../layouts/main'
 import PublicationList from '../components/PublicationList'
 import styled from 'styled-components'
@@ -18,14 +16,18 @@ const StyledTypography = styled(Typography)`
   color: #cccccc;
 `
 
-const App = () => {
+const Author = props => {
   const store = useStore()
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(null)
+  const [limit] = useState(5)
   const dispatch = useDispatch()
-  const [desc, setDesc] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await publicationService.getAll()
+      const offset = (page - 1) * limit
+      const data = await publicationService.getBySearch(props.match.params.string, limit, offset)
+      setTotal(Math.ceil(data.count / limit))
       const state = store.getState()
 
       dispatch({
@@ -36,63 +38,36 @@ const App = () => {
     }
 
     fetchData()
-  }, [])
+  }, [props.match.params, page])
 
-  const handleRevertOrder = event => {
+  const handlePageChange = (event, selectedPage) => {
     event.preventDefault()
-
     const state = store.getState()
     cleanPublications(state)
-
-    let revert
-
-    if (desc) {
-      revert = state.publications.sort((a, b) => { 
-        return new Date(a.createdAt) - new Date(b.createdAt)
-      })
-    } else {
-      revert = state.publications.sort((a, b) => { 
-        return new Date(b.createdAt) - new Date(a.createdAt)
-      })
-    }
-
-    setDesc(!desc)
-
-    dispatch({
-      type: 'TICK',
-      ...state,
-      publications: revert
-    })
+    setPage(selectedPage)
   }
-
+  
   const cleanPublications = (state) => {
     dispatch({
       type: 'TICK',
       ...state,
       publications: null
     })
-  }
+  } 
 
   return (
     <MainLayout>
       <Container maxWidth='md'>
         <Box mb={2} display='flex'>
-          <Box flexGrow={1}>
-            <StyledTypography>All publications</StyledTypography>
-          </Box>
-          <Box>
-            <Button
-              color="primary"
-              startIcon={desc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon /> }
-              onClick={handleRevertOrder}>
-                {desc ? 'Latest' : 'Oldest'}
-            </Button>
-          </Box>
+          <StyledTypography>{`Searching publications with title '${props.match.params.string}'`} </StyledTypography>
         </Box>
         <PublicationList />
+        <Box display='flex' justifyContent='center' mt={4}>
+          {total && <Pagination count={total} page={page} shape='rounded' size='large' onChange={handlePageChange} />}
+        </Box>
       </Container>
     </MainLayout>
   )
 }
 
-export default App
+export default Author

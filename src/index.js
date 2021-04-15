@@ -6,6 +6,7 @@ import './index.css'
 import App from './pages/App'
 import Author from './pages/Author'
 import Publication from './pages/Publication'
+import Search from './pages/Search'
 import NotFound from './pages/404'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
@@ -17,6 +18,7 @@ ReactDOM.render(
         <Route path="/" exact={true} component={App} />
         <Route path="/author/:id" component={Author} />
         <Route path="/publication/:id" component={Publication} />
+        <Route path="/search/:string" component={Search} />
         <Route path='*' exact={true} component={NotFound} />
       </Switch>
     </BrowserRouter>
